@@ -18,6 +18,7 @@ jobs:
       - run: npm install
       - run: npx cap add android
       - run: sed -i 's/compileSdkVersion = 34/compileSdkVersion = 35/' android/variables.gradle
+      - run: sed -i 's/minSdkVersion = 22/minSdkVersion = 23/' android/variables.gradle
       - run: echo "android.suppressUnsupportedCompileSdk=35" >> android/gradle.properties
       - run: npx @capacitor/assets generate --android
       - run: npx cap sync android
