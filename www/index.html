@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="theme-color" content="#080914">
+<title>Reflex Fuck</title>
+<style>
+:root{--bg:#080914;--cyan:#43e8ff;--purple:#9c68ff;--text:#f5f6ff;--muted:#9da3c7}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+body{background:radial-gradient(ellipse at 15% 0%,#21163d 0,transparent 42%),radial-gradient(ellipse at 95% 25%,#063343 0,transparent 35%),#080914}
+.app{width:100%;max-width:540px;margin:auto;padding:14px 14px 86px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.brand{font-weight:900;letter-spacing:1.5px;font-size:17px}.brand span{color:var(--cyan)}
+.balance{background:#171a31;border:1px solid #35395f;border-radius:20px;padding:8px 11px;color:#ffe58a;font-size:13px;font-weight:800;white-space:nowrap}
+.arena{height:72vh;min-height:500px;max-height:780px;position:relative;overflow:hidden;border:1px solid #30345e;border-radius:23px;background:radial-gradient(ellipse at 50% 40%,#20234b 0,#10132a 50%,#090b1a 100%);box-shadow:0 14px 40px #0006;touch-action:manipulation}
+.arena:before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(#43e8ff0b 1px,transparent 1px),linear-gradient(90deg,#43e8ff0b 1px,transparent 1px);background-size:28px 28px}
+.hud{position:absolute;z-index:5;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;gap:7px;pointer-events:none}
+.hud span{font-size:12px;font-weight:800;background:#080a1de8;border:1px solid #42476e;border-radius:10px;padding:7px 9px}
+.center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;z-index:3}
+.intro h1{font-size:30px;line-height:1.1;margin:0 0 10px}.intro h1 span{color:var(--cyan)}.intro p{font-size:13px;color:var(--muted);line-height:1.5;margin:0 auto;max-width:260px}
+.btn{border:0;border-radius:14px;padding:14px 22px;font-size:14px;font-weight:900;color:#070914;background:linear-gradient(110deg,var(--cyan),#a99aff);box-shadow:0 6px 25px #43e8ff30;margin-top:20px;cursor:pointer}
+.ball{position:absolute;z-index:2;top:-72px;width:58px;height:58px;padding:0;border:2px solid #ffffffb0;border-radius:50%;cursor:pointer;touch-action:manipulation;outline:none;animation:fall var(--fall,1.5s) linear forwards;box-shadow:0 0 20px currentColor,0 0 38px currentColor;transition:filter .1s}
+.ball:active{filter:brightness(1.7)}
+.cyan{background:radial-gradient(circle at 30% 25%,white,#8cf7ff 16%,#29cfff 45%,#5548ff 100%);color:#43e8ff}
+.pink{background:radial-gradient(circle at 30% 25%,white,#ffb5d2 16%,#ff3f83 48%,#a21b8d 100%);color:#ff3f83}
+.gold{background:radial-gradient(circle at 30% 25%,white,#fff1ad 16%,#ffc43b 48%,#ff762c 100%);color:#ffc43b}
+.green{background:radial-gradient(circle at 30% 25%,white,#baffdb 16%,#24e99b 48%,#007e94 100%);color:#24e99b}
+.violet{background:radial-gradient(circle at 30% 25%,white,#e9caff 16%,#b05cff 48%,#5c30ff 100%);color:#b05cff}
+@keyframes fall{from{transform:translateY(0) rotate(0deg)}to{transform:translateY(calc(72vh + 100px)) rotate(200deg)}}
+.ball.hit{animation:burst .24s ease-out forwards!important;pointer-events:none}
+@keyframes burst{0%{transform:scale(1);opacity:1}45%{transform:scale(1.55);opacity:1}100%{transform:scale(.2);opacity:0}}
+.bottom{position:fixed;z-index:10;bottom:0;left:0;right:0;padding:9px 16px calc(9px + env(safe-area-inset-bottom));background:#090a17ed;border-top:1px solid #292d4c;backdrop-filter:blur(15px)}
+.nav{max-width:500px;margin:auto;display:grid;grid-template-columns:1fr 1fr;gap:10px}.nav button{border:0;border-radius:12px;background:transparent;color:#969bbd;padding:7px;font-weight:800;font-size:11px}.nav button.active{background:#1a2340;color:var(--cyan)}.nav .ico{display:block;font-size:20px;margin-bottom:2px}
+.shop{display:none}.shop h2{margin:8px 0}.shop p{color:var(--muted);font-size:13px}.items{display:grid;grid-template-columns:1fr 1fr;gap:10px}.item{border:1px solid #30345e;background:#12152c;border-radius:16px;padding:14px}.item .gem{font-size:25px}.item h3{font-size:14px;margin:7px 0}.item p{margin:0 0 10px}.item button{width:100%;padding:10px;border-radius:10px;border:1px solid #42476e;background:#202548;color:white;font-weight:800}
+.toast{position:fixed;z-index:20;bottom:83px;left:50%;transform:translate(-50%,10px);opacity:0;pointer-events:none;transition:.2s;background:#202541;border:1px solid #4a507e;border-radius:12px;padding:10px 14px;font-size:12px;max-width:90%;text-align:center}.toast.show{opacity:1;transform:translate(-50%,0)}
+.hit-fx{position:absolute;z-index:6;transform:translateX(-50%);color:#ffe58a;font-weight:900;font-size:22px;text-shadow:0 0 10px #ffc43b;pointer-events:none;animation:floatup .65s ease-out forwards}
+@keyframes floatup{from{opacity:1;transform:translate(-50%,0)}to{opacity:0;transform:translate(-50%,-50px)}}
+.arena.shake{animation:shake .18s linear}
+@keyframes shake{0%,100%{transform:translate(0,0)}25%{transform:translate(-3px,2px)}50%{transform:translate(3px,-2px)}75%{transform:translate(-2px,-1px)}}
+#splash{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;background:radial-gradient(ellipse at 20% 0%,#2a1b54 0,transparent 45%),radial-gradient(ellipse at 90% 80%,#08455a 0,transparent 40%),#080914;transition:opacity .6s,visibility .6s}
+#splash.out{opacity:0;visibility:hidden}
+.sp-logo{font-size:34px;font-weight:900;letter-spacing:3px;animation:pulse 1.4s ease-in-out infinite}.sp-logo span{color:var(--cyan)}
+@keyframes pulse{0%,100%{transform:scale(1);text-shadow:0 0 12px #43e8ff55}50%{transform:scale(1.07);text-shadow:0 0 30px #43e8ffcc}}
+.sp-balls{display:flex;gap:14px;height:64px;align-items:flex-end}
+.sp-balls i{width:22px;height:22px;border-radius:50%;animation:bounce .9s ease-in-out infinite;box-shadow:0 0 16px currentColor}
+.sp-balls i:nth-child(1){background:#43e8ff;color:#43e8ff}.sp-balls i:nth-child(2){background:#ff3f83;color:#ff3f83;animation-delay:.12s}.sp-balls i:nth-child(3){background:#ffc43b;color:#ffc43b;animation-delay:.24s}.sp-balls i:nth-child(4){background:#24e99b;color:#24e99b;animation-delay:.36s}.sp-balls i:nth-child(5){background:#b05cff;color:#b05cff;animation-delay:.48s}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-38px)}}
+.sp-bar{width:220px;height:7px;border-radius:7px;background:#1a1e3a;overflow:hidden}.sp-bar b{display:block;height:100%;width:0;border-radius:7px;background:linear-gradient(90deg,var(--cyan),var(--purple));animation:load 2.6s ease-in-out forwards}
+@keyframes load{to{width:100%}}
+.sp-txt{font-size:12px;color:var(--muted);letter-spacing:2px}
+@media(max-height:700px){.arena{height:70vh;min-height:440px}}
+</style>
+</head>
+<body>
+<div id="splash"><div class="sp-logo">REFLEX <span>FUCK</span></div><div class="sp-balls"><i></i><i></i><i></i><i></i><i></i></div><div class="sp-bar"><b></b></div><div class="sp-txt">LOADING...</div></div>
+<main class="app">
+<header class="top"><div class="brand">REFLEX <span>FUCK</span></div><div class="balance">🖕 <span id="coins">0</span></div></header>
+<section id="game">
+<div class="arena" id="arena">
+<div class="hud"><span>⏱ <b id="timer">30</b>s</span><span>HITS <b id="hits">0</b></span><span>MISS <b id="misses">0</b></span></div>
+<div class="center" id="center"><div class="intro"><h1 id="title">Ready?<br><span>React!</span></h1><p id="message">Tap each falling ball! Every hit counts +1 with a loud arcade sound. You have 30 seconds.</p><button class="btn" id="start">START GAME</button></div></div>
+</div>
+</section>
+<section class="shop" id="shop"><h2>🖕 Fuck Shop</h2><p>Shop preview — real payments are not enabled yet.</p><div class="items" id="items"></div></section>
+</main>
+<nav class="bottom"><div class="nav"><button class="active" id="gameNav"><span class="ico">⚡</span>PLAY</button><button id="shopNav"><span class="ico">🛍️</span>SHOP</button></div></nav><div class="toast" id="toast"></div>
+<script src="billing.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+let state='ready',score=0,misses=0,timeLeft=30,coins=0,best=0,gameTimer=null,waveTimer=null,activeBalls=new Set(),audioCtx=null;
+try{coins=Number(localStorage.getItem('reflexCoins'))||0;best=Number(localStorage.getItem('reflexBest'))||0}catch(e){}
+$('coins').textContent=coins;
+function say(msg){$('toast').textContent=msg;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),1500)}
+function beep(freq=600,dur=.13,type='triangle',volume=.22){try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();const now=audioCtx.currentTime;let o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type;o.frequency.setValueAtTime(freq,now);g.gain.setValueAtTime(volume,now);g.gain.exponentialRampToValueAtTime(.001,now+dur);o.connect(g);g.connect(audioCtx.destination);o.start(now);o.stop(now+dur)}catch(e){}} 
+function hitSound(){beep(880,.12,'triangle',.24);setTimeout(()=>beep(1320,.10,'sine',.16),35);setTimeout(()=>beep(1760,.08,'triangle',.10),65)}
+function popFX(b){const r=b.getBoundingClientRect(),a=$('arena').getBoundingClientRect();const fx=document.createElement('div');fx.className='hit-fx';fx.textContent='+1';fx.style.left=(r.left-a.left+r.width/2)+'px';fx.style.top=(r.top-a.top)+'px';$('arena').appendChild(fx);setTimeout(()=>fx.remove(),650)}
+function hud(){$('timer').textContent=timeLeft;$('hits').textContent=score;$('misses').textContent=misses}
+function clearAll(){clearTimeout(waveTimer);activeBalls.forEach(b=>b.remove());activeBalls.clear()}
+function endGame(){if(state!=='playing')return;state='ended';clearInterval(gameTimer);clearAll();coins+=Math.floor(score/10);try{localStorage.setItem('reflexCoins',coins);if(score>best)localStorage.setItem('reflexBest',score)}catch(e){}$('coins').textContent=coins;$('center').style.display='flex';$('title').innerHTML=`Time's up!<br><span>${score} hits</span>`;$('message').textContent=`You hit ${score} balls and missed ${misses}. Try again to beat your score.`;$('start').textContent='PLAY AGAIN';beep(440,.12);setTimeout(()=>beep(660,.16),120)}
+function hit(b){if(state!=='playing'||!activeBalls.has(b))return;activeBalls.delete(b);score++;hud();popFX(b);b.classList.add('hit');hitSound();const ar=$('arena');ar.classList.remove('shake');void ar.offsetWidth;ar.classList.add('shake');setTimeout(()=>ar.classList.remove('shake'),180);setTimeout(()=>b.remove(),300)}
+function spawnWave(){if(state!=='playing')return;const arena=$('arena'),w=arena.clientWidth;let n=[3,4,4,5,6,6][Math.floor(Math.random()*6)];let slots=Math.max(1,Math.floor((w-12)/64));let xs=[];for(let i=0;i<n;i++){let x;if(n<=slots){let free=[];for(let s=0;s<slots;s++){let px=6+s*(w-70)/Math.max(1,slots-1);if(!xs.some(v=>Math.abs(v-px)<60))free.push(px)}x=free.length?free[Math.floor(Math.random()*free.length)]:Math.random()*(w-60)}else{x=Math.random()*(w-60)}xs.push(x);let b=document.createElement('button');b.type='button';b.className='ball '+['cyan','pink','gold','green','violet'][Math.floor(Math.random()*5)];b.setAttribute('aria-label','Tap ball');b.style.left=Math.max(4,Math.min(w-62,x))+'px';b.style.setProperty('--fall',(1.5+Math.random()*.5)+'s');b.style.animationDelay=(i*.24+Math.random()*.16)+'s';b.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();hit(b)});b.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();hit(b)});b.addEventListener('animationend',()=>{if(activeBalls.has(b)){activeBalls.delete(b);misses++;hud();b.remove()}});arena.appendChild(b);activeBalls.add(b)}waveTimer=setTimeout(spawnWave,1300+Math.random()*500)}
+function startGame(){clearInterval(gameTimer);clearAll();state='playing';score=0;misses=0;timeLeft=30;hud();$('center').style.display='none';beep(740,.1);spawnWave();gameTimer=setInterval(()=>{timeLeft--;hud();if(timeLeft<=0)endGame()},1000)}
+$('start').addEventListener('click',e=>{e.stopPropagation();startGame()});
+function tab(which){let shop=which==='shop';$('game').style.display=shop?'none':'block';$('shop').style.display=shop?'block':'none';$('gameNav').classList.toggle('active',!shop);$('shopNav').classList.toggle('active',shop)}
+$('gameNav').onclick=()=>tab('game');$('shopNav').onclick=()=>tab('shop');
+$('items').innerHTML=Array.from({length:10},(_,i)=>{let n=i+1;return `<div class="item"><div class="gem">🖕</div><h3>${n*100} Fuck</h3><p>$${n}.00 USD</p><button data-price="${n}">Buy · $${n}.00</button></div>`}).join('');
+/* ===== PAYMENT SETUP ===== */
+const PAYMENT={apiUrl:''}; /* পরে সার্ভার থাকলে এখানে URL বসান (Play Store ছাড়া ব্যবহারের জন্য) */
+function creditCoins(n){coins+=n;try{localStorage.setItem('reflexCoins',coins)}catch(e){}$('coins').textContent=coins}
+async function buy(price){const n=price*100;
+if(window.PlayBilling&&window.PlayBilling.purchase){try{const ok=await window.PlayBilling.purchase('coins_'+n);if(ok){creditCoins(n);say('Purchase complete!')}}catch(err){say('Purchase cancelled.')}return}
+if(PAYMENT.apiUrl){try{const r=await fetch(PAYMENT.apiUrl+'/create-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({coins:n,price})});const d=await r.json();if(d.url)window.location.href=d.url}catch(err){say('Network error.')}return}
+say('Demo only — payment not connected yet.')}
+$('items').addEventListener('click',e=>{const b=e.target.closest('button');if(b)buy(Number(b.dataset.price))});
+setTimeout(()=>$('splash').classList.add('out'),2800);
+</script>
+</body></html>
