@@ -20,10 +20,13 @@ jobs:
       - run: sed -i 's/compileSdkVersion = 34/compileSdkVersion = 35/' android/variables.gradle
       - run: sed -i 's/minSdkVersion = 22/minSdkVersion = 23/' android/variables.gradle
       - run: echo "android.suppressUnsupportedCompileSdk=35" >> android/gradle.properties
+      - run: sed -i 's|<string name="app_name">.*</string>|<string name="app_name">Reflex Nova</string>|' android/app/src/main/res/values/strings.xml
+      - run: sed -i 's|<string name="title_activity_main">.*</string>|<string name="title_activity_main">Reflex Nova</string>|' android/app/src/main/res/values/strings.xml
       - run: npx @capacitor/assets generate --android
       - run: npx cap sync android
       - run: chmod +x android/gradlew && cd android && ./gradlew assembleDebug
+      - run: cp android/app/build/outputs/apk/debug/app-debug.apk Reflex-Nova.apk
       - uses: actions/upload-artifact@v4
         with:
-          name: reflex-fuck-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          name: Reflex-Nova-APK
+          path: Reflex-Nova.apk
